@@ -1,8 +1,5 @@
 package com.example.OnlyGuitars.dto;
 
-import com.example.OnlyGuitars.model.Profile;
-
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -48,7 +45,6 @@ public class ProfileInputDto {
     public int getEnabled() {
         return enabled;
     }
-
     public void setEnabled(int enabled) {
         this.enabled = enabled;
     }

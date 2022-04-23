@@ -71,11 +71,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/public").hasAnyAuthority("USER", "ADMIN")
                 .anyRequest()
                 .authenticated()
-                .and()
-                .cors()
+
                 .and()
                 .addFilterBefore(new JwtRequestFilter(jwtService, userDetailsService()), UsernamePasswordAuthenticationFilter.class)
                 .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        ;
     }
 }

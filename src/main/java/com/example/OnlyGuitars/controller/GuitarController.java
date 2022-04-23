@@ -1,14 +1,8 @@
 package com.example.OnlyGuitars.controller;
 
-
-import com.example.OnlyGuitars.dto.GuitarInputDto;
 import com.example.OnlyGuitars.dto.GuitarOutputDto;
 import com.example.OnlyGuitars.dto.StatusOutput;
-import com.example.OnlyGuitars.model.Guitar;
-import com.example.OnlyGuitars.repository.GuitarRepository;
 import com.example.OnlyGuitars.service.GuitarService;
-import com.example.OnlyGuitars.service.GuitarServiceImpl;
-import com.example.OnlyGuitars.service.ReviewServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,7 +11,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController

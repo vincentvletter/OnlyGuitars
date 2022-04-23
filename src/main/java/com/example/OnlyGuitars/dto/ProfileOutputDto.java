@@ -1,7 +1,5 @@
 package com.example.OnlyGuitars.dto;
 
-import com.example.OnlyGuitars.model.Profile;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;

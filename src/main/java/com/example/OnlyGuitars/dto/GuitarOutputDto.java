@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GuitarOutputDto extends StatusOutput{
+public class GuitarOutputDto {
     public Long id;
     public String brand;
     public String model;
@@ -53,15 +53,12 @@ public class GuitarOutputDto extends StatusOutput{
     public void setTimeStamp(LocalDateTime timeStamp) {
         this.timeStamp = timeStamp;
     }
-
     public List<ReviewOutputDto> getReviewList() {
         return reviewList;
     }
-
     public void setReviewList(List<ReviewOutputDto> reviewList) {
         this.reviewList = reviewList;
     }
-
     public int getReviewListSize() {
         return reviewListSize;
     }
