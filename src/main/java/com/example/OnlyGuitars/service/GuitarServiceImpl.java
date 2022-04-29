@@ -37,6 +37,8 @@ public class GuitarServiceImpl implements GuitarService {
             } catch (IOException exception) {
                 exception.printStackTrace();
             }
+        } else {
+            throw new RuntimeException();
         }
     }
 
@@ -77,6 +79,7 @@ public class GuitarServiceImpl implements GuitarService {
     }
 
     public GuitarOutputDto getOneGuitarDto(Guitar guitar) {
+
         GuitarOutputDto guitarOutputDto = new GuitarOutputDto();
 
         List<ReviewOutputDto> reviewOutputDtoList = new ArrayList<>();
@@ -84,7 +87,7 @@ public class GuitarServiceImpl implements GuitarService {
         guitarOutputDto.id = guitar.getId();
         guitarOutputDto.brand = guitar.getBrand();
         guitarOutputDto.model = guitar.getModel();
-        guitarOutputDto.imageApi = "/guitars/" + guitar.getId() + "/image";
+        guitarOutputDto.imageApi = "http://localhost:8080/guitars/" + guitar.getId() + "/image";
         guitarOutputDto.timeStamp = guitar.getTimeStamp();
         guitarOutputDto.reviewListSize = guitar.getReviews().size();
         guitarOutputDto.profileLikes = guitar.getProfiles().size();

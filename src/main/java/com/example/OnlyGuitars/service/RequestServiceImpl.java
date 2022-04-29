@@ -32,6 +32,8 @@ public class RequestServiceImpl implements RequestService{
     public void deleteRequest(Long id) {
         if(requestRepository.existsById(id)) {
             requestRepository.deleteById(id);
+        } else {
+            throw new RuntimeException("id not found");
         }
     }
 
@@ -40,6 +42,7 @@ public class RequestServiceImpl implements RequestService{
         requestOutputDto.id = request.getId();
         requestOutputDto.brand = request.getBrand();
         requestOutputDto.model = request.getModel();
+        requestOutputDto.timeStamp = request.getTimeStamp();
         return requestOutputDto;
     }
 

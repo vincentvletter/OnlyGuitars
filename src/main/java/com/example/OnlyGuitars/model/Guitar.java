@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jdk.jfr.Timestamp;
 
 import javax.persistence.*;
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;

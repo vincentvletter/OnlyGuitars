@@ -63,15 +63,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/register").permitAll()
                 .antMatchers("/login").permitAll()
-                .antMatchers("/profiles/guitars").hasAnyAuthority("USER", "ADMIN")
-                .antMatchers("/profiles/{id}").hasAuthority("ADMIN")
-                .antMatchers("/test").permitAll()
-                .antMatchers("/guitars").hasAuthority("ADMIN")
-                .antMatchers("/private").hasAuthority("ADMIN")
-                .antMatchers("/public").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers("/profiles/**").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers("/guitars").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers("/guitars/{id}/image").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers("/guitars/create").hasAuthority("ADMIN")
+                .antMatchers("/guitars/{id}/delete}").hasAuthority("ADMIN")
+                .antMatchers("/requests").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers("/requests/get").hasAuthority("ADMIN")
+                .antMatchers("/requests/{id}").hasAuthority("ADMIN")
                 .anyRequest()
                 .authenticated()
-
+                .and()
+                .cors()
                 .and()
                 .addFilterBefore(new JwtRequestFilter(jwtService, userDetailsService()), UsernamePasswordAuthenticationFilter.class)
                 .csrf().disable()
@@ -79,3 +82,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         ;
     }
 }
+
+///profiles/update
+//        /profiles
+//        /profiles
+//        /profiles/guitars
+//        /profiles/remove/guitars/from-list
+//        /profiles/guitars/{id}/reviews
+
+
+
+

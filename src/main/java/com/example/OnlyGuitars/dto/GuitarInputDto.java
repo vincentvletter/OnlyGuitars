@@ -16,7 +16,6 @@ public class GuitarInputDto {
     public byte[] image;
 
 
-
     public Long getId() {
         return id;
     }

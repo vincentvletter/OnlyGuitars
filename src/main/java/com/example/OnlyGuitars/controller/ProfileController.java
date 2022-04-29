@@ -40,7 +40,7 @@ public class ProfileController {
         }
     }
 
-    @PutMapping("/profiles")
+    @PutMapping("/profiles/update")
     public ResponseEntity<Object> updateProfile(@Validated @RequestBody ProfileInputDto profileInputDto, BindingResult bindingResult) {
         StatusOutput statusOutput = new StatusOutput();
         if (bindingResult.hasErrors()) {
@@ -102,7 +102,7 @@ public class ProfileController {
             statusOutput.setSucceded(true);
             return new ResponseEntity<>(statusOutput, HttpStatus.OK);
         } catch (Exception exception) {
-            statusOutput.getErrorList().add("Guitar not found");
+            statusOutput.getErrorList().add("You already liked the guitar.");
             statusOutput.getErrorList().add(exception.getMessage());
             statusOutput.setSucceded(false);
             return new ResponseEntity<>(statusOutput, HttpStatus.BAD_REQUEST);
@@ -129,6 +129,9 @@ public class ProfileController {
     public ResponseEntity<Object> writeReview(@PathVariable Long id, @RequestBody ReviewInputDto reviewInputDto) {
         StatusOutput statusOutput = new StatusOutput();
         try {
+            if(reviewInputDto.title.isEmpty() || reviewInputDto.details.isEmpty()) {
+                throw new RuntimeException();
+            }
             profileService.writeReview(id, reviewInputDto);
             statusOutput.setSuccededMessage("Review added");
             statusOutput.setSucceded(true);

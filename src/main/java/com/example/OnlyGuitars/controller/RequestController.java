@@ -31,9 +31,9 @@ public class RequestController {
             return new ResponseEntity<>(statusOutput, HttpStatus.BAD_REQUEST);
         }
         try {
+            requestService.createRequest(requestInputDto);
             statusOutput.setSuccededMessage("Request send");
             statusOutput.setSucceded(true);
-            requestService.createRequest(requestInputDto);
             return new ResponseEntity<>(statusOutput, HttpStatus.CREATED);
         } catch (Exception exception) {
             statusOutput.getErrorList().add("something went wrong");
@@ -42,12 +42,12 @@ public class RequestController {
         }
     }
 
-    @GetMapping("/requests")
+    @GetMapping("/requests/get")
     public ResponseEntity<Object> getAllRequests() {
         StatusOutput statusOutput = new StatusOutput();
         try {
-            statusOutput.setSucceded(true);
             List<RequestOutputDto> allRequests = requestService.getAllRequests();
+            statusOutput.setSucceded(true);
             return new ResponseEntity<>(allRequests, HttpStatus.OK);
         } catch (Exception exception) {
             statusOutput.getErrorList().add("something went wrong");
@@ -60,12 +60,12 @@ public class RequestController {
     public ResponseEntity<Object> deleteRequest(@PathVariable Long id) {
         StatusOutput statusOutput = new StatusOutput();
         try {
+            requestService.deleteRequest(id);
             statusOutput.setSuccededMessage("Request deleted");
             statusOutput.setSucceded(true);
-            requestService.deleteRequest(id);
             return new ResponseEntity<>(statusOutput, HttpStatus.OK);
         } catch (Exception exception) {
-            statusOutput.getErrorList().add("something went wrong");
+            statusOutput.getErrorList().add(exception.getMessage());
             statusOutput.setSucceded(false);
             return new ResponseEntity<>(statusOutput, HttpStatus.BAD_REQUEST);
         }

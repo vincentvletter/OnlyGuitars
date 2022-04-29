@@ -20,7 +20,7 @@ public class GuitarController {
     GuitarService guitarService;
 
 
-    @PostMapping(value = "/guitars")
+    @PostMapping("/guitars/create")
     public ResponseEntity<Object> createGuitar(@Validated @RequestBody MultipartFile image, String brand, String model) {
         StatusOutput statusOutput = new StatusOutput();
         try {
@@ -29,7 +29,7 @@ public class GuitarController {
             statusOutput.setSucceded(true);
             return new ResponseEntity<>(statusOutput, HttpStatus.CREATED);
         } catch (Exception exception) {
-            statusOutput.getErrorList().add("username already exists");
+            statusOutput.getErrorList().add("model name already exists");
             statusOutput.setSucceded(false);
             return new ResponseEntity<>(statusOutput, HttpStatus.BAD_REQUEST);
         }
@@ -39,8 +39,8 @@ public class GuitarController {
     public ResponseEntity<Object> getGuitar(@PathVariable Long id) {
         StatusOutput statusOutput = new StatusOutput();
         try {
-            statusOutput.setSucceded(true);
             GuitarOutputDto guitarOutputDto = guitarService.getGuitar(id);
+            statusOutput.setSucceded(true);
             return new ResponseEntity<>(guitarOutputDto, HttpStatus.OK);
         } catch (Exception exception) {
             statusOutput.getErrorList().add("something went wrong");
@@ -65,7 +65,7 @@ public class GuitarController {
         }
     }
 
-    @DeleteMapping("guitars/{id}")
+    @DeleteMapping("guitars/{id}/delete")
     public ResponseEntity<Object> deleteGuitar(@PathVariable Long id) {
         StatusOutput statusOutput = new StatusOutput();
         try {

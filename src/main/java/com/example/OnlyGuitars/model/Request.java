@@ -1,8 +1,11 @@
 package com.example.OnlyGuitars.model;
 
+import jdk.jfr.Timestamp;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.time.LocalDateTime;
 
 @Entity
 public class Request {
@@ -11,6 +14,8 @@ public class Request {
     private Long id;
     private String brand;
     private String model;
+    @Timestamp
+    private LocalDateTime timeStamp = LocalDateTime.now();
 
 
     public Long getId() {
@@ -30,5 +35,11 @@ public class Request {
     }
     public void setModel(String model) {
         this.model = model;
+    }
+    public LocalDateTime getTimeStamp() {
+        return timeStamp;
+    }
+    public void setTimeStamp(LocalDateTime timeStamp) {
+        this.timeStamp = timeStamp;
     }
 }
