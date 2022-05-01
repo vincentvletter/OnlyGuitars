@@ -63,16 +63,8 @@ public class Guitar {
     public List<Review> getReviews() {
         return reviews;
     }
-    public void setReviews(List<Review> reviews) {
-        this.reviews = reviews;
-    }
+
     public List<Profile> getProfiles() {
         return profiles;
     }
-    public void setProfiles(List<Profile> profiles) {
-        this.profiles = profiles;
-    }
-
-
-
 }

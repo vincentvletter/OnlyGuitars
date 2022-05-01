@@ -39,13 +39,5 @@ public class ProfileInputDto {
     public String getRole() {
         return role;
     }
-    public void setRole(String role) {
-        this.role = role;
-    }
-    public int getEnabled() {
-        return enabled;
-    }
-    public void setEnabled(int enabled) {
-        this.enabled = enabled;
-    }
+
 }

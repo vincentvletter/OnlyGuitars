@@ -26,26 +26,11 @@ public class ProfileOutputDto extends StatusOutput {
     public void setUsername(String username) {
         this.username = username;
     }
-    public String getRole() {
-        return role;
-    }
-    public void setRole(String role) {
-        this.role = role;
-    }
-    public int getEnabled() {
-        return enabled;
-    }
-    public void setEnabled(int enabled) {
-        this.enabled = enabled;
-    }
     public LocalDateTime getTimeStamp() {
         return timeStamp;
     }
     public void setTimeStamp(LocalDateTime timeStamp) {
         this.timeStamp = timeStamp;
-    }
-    public List<GuitarOutputDto> getGuitarList() {
-        return guitarList;
     }
     public void setGuitarList(List<GuitarOutputDto> guitarList) {
         this.guitarList = guitarList;
