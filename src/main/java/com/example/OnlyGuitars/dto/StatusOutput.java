@@ -17,12 +17,6 @@ public class StatusOutput {
     public List<String> getErrorList() {
         return errorList;
     }
-    public void setErrorList(ArrayList<String> errorList) {
-        this.errorList = errorList;
-    }
-    public String getSuccededMessage() {
-        return succededMessage;
-    }
     public void setSuccededMessage(String succededMessage) {
         this.succededMessage = succededMessage;
     }

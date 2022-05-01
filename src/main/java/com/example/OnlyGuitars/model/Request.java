@@ -1,7 +1,6 @@
 package com.example.OnlyGuitars.model;
 
 import jdk.jfr.Timestamp;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;

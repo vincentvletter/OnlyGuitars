@@ -29,23 +29,11 @@ public class GuitarOutputDto {
     public void setId(Long id) {
         this.id = id;
     }
-    public String getBrand() {
-        return brand;
-    }
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
     public String getModel() {
         return model;
     }
     public void setModel(String model) {
         this.model = model;
-    }
-    public byte[] getImage() {
-        return image;
-    }
-    public void setImage(byte[] image) {
-        this.image = image;
     }
     public LocalDateTime getTimeStamp() {
         return timeStamp;
@@ -53,16 +41,8 @@ public class GuitarOutputDto {
     public void setTimeStamp(LocalDateTime timeStamp) {
         this.timeStamp = timeStamp;
     }
-    public List<ReviewOutputDto> getReviewList() {
-        return reviewList;
-    }
     public void setReviewList(List<ReviewOutputDto> reviewList) {
         this.reviewList = reviewList;
     }
-    public int getReviewListSize() {
-        return reviewListSize;
-    }
-    public void setReviewListSize(int reviewListSize) {
-        this.reviewListSize = reviewListSize;
-    }
+
 }

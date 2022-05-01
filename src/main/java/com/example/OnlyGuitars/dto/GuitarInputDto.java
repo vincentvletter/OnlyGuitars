@@ -1,6 +1,5 @@
 package com.example.OnlyGuitars.dto;
 
-import com.example.OnlyGuitars.model.Guitar;
 
 import javax.persistence.Lob;
 import javax.validation.constraints.NotBlank;

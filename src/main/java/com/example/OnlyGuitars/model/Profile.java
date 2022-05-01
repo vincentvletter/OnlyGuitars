@@ -42,9 +42,6 @@ public class Profile {
     public void setUsername(String username) {
         this.username = username;
     }
-    public String getPassword() {
-        return password;
-    }
     public void setPassword(String password) {
         this.password = password;
     }
@@ -54,28 +51,19 @@ public class Profile {
     public void setRole(String role) {
         this.role = role;
     }
-
     public int getEnabled() {
         return enabled;
     }
-
     public void setEnabled(int enabled) {
         this.enabled = enabled;
     }
-
     public LocalDateTime getTimeStamp() {
         return timeStamp;
     }
     public List<Guitar> getGuitars() {
         return guitars;
     }
-    public void setGuitars(List<Guitar> guitars) {
-        this.guitars = guitars;
-    }
     public List<Review> getReviews() {
         return reviews;
-    }
-    public void setReviews(List<Review> reviews) {
-        this.reviews = reviews;
     }
 }

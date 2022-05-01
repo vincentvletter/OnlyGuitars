@@ -58,9 +58,6 @@ public class Review {
     public void setGuitar(Guitar guitar) {
         this.guitar = guitar;
     }
-    public Profile getProfile() {
-        return profile;
-    }
     public void setProfile(Profile profile) {
         this.profile = profile;
     }
