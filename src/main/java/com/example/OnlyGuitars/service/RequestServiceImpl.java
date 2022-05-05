@@ -2,6 +2,7 @@ package com.example.OnlyGuitars.service;
 
 import com.example.OnlyGuitars.dto.RequestInputDto;
 import com.example.OnlyGuitars.dto.RequestOutputDto;
+import com.example.OnlyGuitars.exceptions.RecordNotFoundException;
 import com.example.OnlyGuitars.model.Request;
 import com.example.OnlyGuitars.repository.RequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class RequestServiceImpl implements RequestService{
         if(requestRepository.existsById(id)) {
             requestRepository.deleteById(id);
         } else {
-            throw new RuntimeException("id not found");
+            throw new RecordNotFoundException("id not found");
         }
     }
 

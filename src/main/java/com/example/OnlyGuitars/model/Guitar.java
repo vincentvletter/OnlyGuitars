@@ -63,7 +63,6 @@ public class Guitar {
     public List<Review> getReviews() {
         return reviews;
     }
-
     public List<Profile> getProfiles() {
         return profiles;
     }

@@ -39,5 +39,4 @@ public class ProfileInputDto {
     public String getRole() {
         return role;
     }
-
 }

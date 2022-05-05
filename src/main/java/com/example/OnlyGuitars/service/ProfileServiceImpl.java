@@ -1,15 +1,14 @@
 package com.example.OnlyGuitars.service;
 
 import com.example.OnlyGuitars.dto.*;
+import com.example.OnlyGuitars.exceptions.BadRequestException;
+import com.example.OnlyGuitars.exceptions.RecordNotFoundException;
 import com.example.OnlyGuitars.model.Guitar;
 import com.example.OnlyGuitars.model.Profile;
 import com.example.OnlyGuitars.model.Review;
 import com.example.OnlyGuitars.repository.GuitarRepository;
 import com.example.OnlyGuitars.repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +16,11 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Service
 public class ProfileServiceImpl implements ProfileService {
+
+
 
     @Autowired
     ProfileRepository profileRepository;
@@ -39,80 +41,60 @@ public class ProfileServiceImpl implements ProfileService {
             profile = toProfile(profileInputDto);
             profileRepository.save(profile);
         } else {
-            throw new RuntimeException();
+            throw new BadRequestException("Username already exist");
         }
     }
 
-    public void updateProfile(ProfileInputDto profileInputDto) {
+    public ProfileOutputDto updateProfile(ProfileInputDto profileInputDto, String username) {
         if (profileRepository.findByUsername(profileInputDto.getUsername()) == null) {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            UserDetails userDetails = (UserDetails) auth.getPrincipal();
-            Profile profile = profileRepository.findByUsername(userDetails.getUsername());
+            Profile profile = profileRepository.findByUsername(username);
             if (!profileInputDto.username.equals(profile.getUsername())) {
                 profile.setUsername(profileInputDto.getUsername());
             }
             profile.setPassword(passwordEncoder.encode(profileInputDto.getPassword()));
             profileRepository.save(profile);
+            return fromProfile(profile);
         } else {
-            throw new RuntimeException();
+            throw new BadRequestException("Username already exist");
         }
     }
 
     @Transactional
-    public ProfileOutputDto getProfile() {
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetails = (UserDetails) auth.getPrincipal();
-
-        Profile profile = profileRepository.findByUsername(userDetails.getUsername());
-        ProfileOutputDto profileOutputDto = fromProfile(profile);
-
-        return profileOutputDto;
+    public ProfileOutputDto getProfile(String username) {
+        Profile profile = profileRepository.findByUsername(username);
+        return fromProfile(profile);
     }
 
-    public void deleteProfile() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetails = (UserDetails) auth.getPrincipal();
-
-        Profile profile = profileRepository.findByUsername(userDetails.getUsername());
+    public void deleteProfile(String username) {
+        Profile profile = profileRepository.findByUsername(username);
         if (profileRepository.findByUsername(profile.getUsername()) != null) {
             profileRepository.deleteById(profile.getId());
+        } else {
+            throw new RecordNotFoundException("profile not found");
         }
     }
 
     @Transactional
-    public void addGuitarToProfile(GuitarInputDto guitarInputDto) {
-        StatusOutput statusOutput = new StatusOutput();
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetails = (UserDetails) auth.getPrincipal();
-
-        Profile profile = profileRepository.findByUsername(userDetails.getUsername());
-
+    public void addGuitarToProfile(GuitarInputDto guitarInputDto, String username) {
+        Profile profile = profileRepository.findByUsername(username);
         Guitar guitar = guitarRepository.findById(guitarInputDto.getId()).get();
         if (!profile.getGuitars().contains(guitar)) {
             profile.getGuitars().add(guitar);
             profileRepository.save(profile);
         } else {
-            throw new RuntimeException();
+            throw new BadRequestException();
         }
     }
 
     @Transactional
-    public void removeGuitarFromList(GuitarInputDto guitarInputDto) {
-        StatusOutput statusOutput = new StatusOutput();
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetails = (UserDetails) auth.getPrincipal();
-
-        Profile profile = profileRepository.findByUsername(userDetails.getUsername());
-
+    public void removeGuitarFromList(GuitarInputDto guitarInputDto, String username) {
+        Profile profile = profileRepository.findByUsername(username);
         Guitar guitar = guitarRepository.findById(guitarInputDto.getId()).get();
         if (profile.getGuitars().contains(guitar)) {
             profile.getGuitars().remove(guitar);
             profileRepository.save(profile);
         } else {
-            throw new RuntimeException();
+            throw new BadRequestException();
         }
     }
 
@@ -120,23 +102,19 @@ public class ProfileServiceImpl implements ProfileService {
         Profile profile = profileRepository.findById(id).get();
         if (profile.getGuitars().contains(guitar)) {
             profile.getGuitars().remove(guitar);
+        } else {
+            throw new BadRequestException();
         }
     }
 
-    public void writeReview(Long id, ReviewInputDto reviewInputDto) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetails = (UserDetails) auth.getPrincipal();
-
-        Profile profile = profileRepository.findByUsername(userDetails.getUsername());
+    public void writeReview(Long id, ReviewInputDto reviewInputDto, String username) {
+        Profile profile = profileRepository.findByUsername(username);
         Guitar guitar = guitarRepository.findById(id).get();
-
         reviewInputDto.setProfile(profile);
         reviewInputDto.setGuitar(guitar);
-
         Review review = reviewService.addReview(reviewInputDto);
         profile.getReviews().add(review);
         guitar.getReviews().add(review);
-
         profileRepository.save(profile);
         guitarRepository.save(guitar);
     }
@@ -154,11 +132,8 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     public ProfileOutputDto fromProfile(Profile profile) {
-
         ProfileOutputDto profileOutputDto = new ProfileOutputDto();
-
         List<GuitarOutputDto> guitarOutputDtoList = new ArrayList<>();
-
         profileOutputDto.id = profile.getId();
         profileOutputDto.username = profile.getUsername();
         profileOutputDto.role = profile.getRole();

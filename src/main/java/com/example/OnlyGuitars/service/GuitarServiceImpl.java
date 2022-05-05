@@ -1,6 +1,8 @@
 package com.example.OnlyGuitars.service;
 
 import com.example.OnlyGuitars.dto.*;
+import com.example.OnlyGuitars.exceptions.BadRequestException;
+import com.example.OnlyGuitars.exceptions.RecordNotFoundException;
 import com.example.OnlyGuitars.model.Guitar;
 import com.example.OnlyGuitars.repository.GuitarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +31,9 @@ public class GuitarServiceImpl implements GuitarService {
         GuitarInputDto guitarInputDto = new GuitarInputDto();
         if (guitarRepository.findByModel(model) == null) {
             try {
+                if(image != null) {
                 guitarInputDto.setImage(image.getBytes());
+                }
                 guitarInputDto.setBrand(brand);
                 guitarInputDto.setModel(model);
                 Guitar guitar = toGuitar(guitarInputDto);
@@ -38,36 +42,46 @@ public class GuitarServiceImpl implements GuitarService {
                 exception.printStackTrace();
             }
         } else {
-            throw new RuntimeException();
+            throw new BadRequestException();
         }
     }
 
     public GuitarOutputDto getGuitar(Long id) {
-        Guitar guitar = guitarRepository.findById(id).get();
-        GuitarOutputDto guitarOutputDto = getOneGuitarDto(guitar);
-        return guitarOutputDto;
+        if(guitarRepository.findById(id).isPresent()){
+            Guitar guitar = guitarRepository.findById(id).get();
+            return getOneGuitarDto(guitar);
+        } else{
+            throw new RecordNotFoundException("guitar not found");
+        }
     }
 
     public List<GuitarOutputDto> getAllGuitars() {
         List<Guitar> allGuitars = guitarRepository.findAll();
         List<GuitarOutputDto> allGuitarOutputDtos = new ArrayList<>();
-
         allGuitars.forEach(guitar -> allGuitarOutputDtos.add(fromGuitar(guitar)));
         return allGuitarOutputDtos;
     }
 
     @Transactional
     public void deleteGuitar(Long id) {
+        if(guitarRepository.findById(id).isPresent()){
         Guitar guitar = guitarRepository.findById(id).get();
         guitar.getReviews().forEach(review -> reviewService.deleteReview(review.getId()));
         guitar.getProfiles().forEach(profile -> profileService.removeGuitar(profile.getId(), guitar));
         guitarRepository.delete(guitar);
+        } else {
+            throw new RecordNotFoundException("guitar not found");
+        }
     }
 
     public byte[] getImage(Long id) {
+        if(guitarRepository.findById(id).isPresent()) {
         Guitar guitar = guitarRepository.findById(id).get();
         GuitarOutputDto guitarOutputDto = fromGuitarImage(guitar);
         return guitarOutputDto.image;
+        } else {
+            throw new RecordNotFoundException("guitar not found");
+        }
     }
 
     public Guitar toGuitar(GuitarInputDto guitarInputDto) {
@@ -115,9 +129,7 @@ public class GuitarServiceImpl implements GuitarService {
     }
 
     public GuitarOutputDto fromGuitarImage(Guitar guitar) {
-
         GuitarOutputDto guitarOutputDto = new GuitarOutputDto();
-
         guitarOutputDto.image = guitar.getImage();
 
         return guitarOutputDto;

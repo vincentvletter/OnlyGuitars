@@ -23,66 +23,41 @@ public class GuitarController {
     @PostMapping("/guitars/create")
     public ResponseEntity<Object> createGuitar(@Validated @RequestBody MultipartFile image, String brand, String model) {
         StatusOutput statusOutput = new StatusOutput();
-        try {
-            guitarService.createGuitar(image, brand, model);
-            statusOutput.setSuccededMessage("Guitar added");
-            statusOutput.setSucceded(true);
-            return new ResponseEntity<>(statusOutput, HttpStatus.CREATED);
-        } catch (Exception exception) {
-            statusOutput.getErrorList().add("model name already exists");
-            statusOutput.setSucceded(false);
-            return new ResponseEntity<>(statusOutput, HttpStatus.BAD_REQUEST);
-        }
+
+        guitarService.createGuitar(image, brand, model);
+        statusOutput.setSuccededMessage("Guitar added");
+        statusOutput.setSucceded(true);
+        return new ResponseEntity<>(statusOutput, HttpStatus.CREATED);
     }
 
     @GetMapping("/guitars/{id}")
     public ResponseEntity<Object> getGuitar(@PathVariable Long id) {
         StatusOutput statusOutput = new StatusOutput();
-        try {
-            GuitarOutputDto guitarOutputDto = guitarService.getGuitar(id);
-            statusOutput.setSucceded(true);
-            return new ResponseEntity<>(guitarOutputDto, HttpStatus.OK);
-        } catch (Exception exception) {
-            statusOutput.getErrorList().add("something went wrong");
-            statusOutput.getErrorList().add(exception.getMessage());
-            statusOutput.setSucceded(false);
-            return new ResponseEntity<>(statusOutput, HttpStatus.BAD_REQUEST);
-        }
+        GuitarOutputDto guitarOutputDto = guitarService.getGuitar(id);
+        statusOutput.setSucceded(true);
+        return new ResponseEntity<>(guitarOutputDto, HttpStatus.OK);
     }
 
     @GetMapping("/guitars")
     public ResponseEntity<Object> getAllGuitars() {
         StatusOutput statusOutput = new StatusOutput();
-        try {
-            List<GuitarOutputDto> allGuitars = guitarService.getAllGuitars();
-            statusOutput.setSucceded(true);
-            return new ResponseEntity<>(allGuitars, HttpStatus.OK);
-        } catch (Exception exception) {
-            statusOutput.getErrorList().add("something went wrong");
-            statusOutput.getErrorList().add(exception.getMessage());
-            statusOutput.setSucceded(false);
-            return new ResponseEntity<>(statusOutput, HttpStatus.BAD_REQUEST);
-        }
+        List<GuitarOutputDto> allGuitars = guitarService.getAllGuitars();
+        statusOutput.setSucceded(true);
+        return new ResponseEntity<>(allGuitars, HttpStatus.OK);
     }
 
     @DeleteMapping("guitars/{id}/delete")
     public ResponseEntity<Object> deleteGuitar(@PathVariable Long id) {
         StatusOutput statusOutput = new StatusOutput();
-        try {
-            guitarService.deleteGuitar(id);
-            statusOutput.setSuccededMessage("Guitar deleted");
-            statusOutput.setSucceded(true);
-            return new ResponseEntity<>(statusOutput, HttpStatus.OK);
-        } catch (Exception exception) {
-            statusOutput.getErrorList().add("something went wrong");
-            statusOutput.getErrorList().add(exception.getMessage());
-            statusOutput.setSucceded(false);
-            return new ResponseEntity<>(statusOutput, HttpStatus.BAD_REQUEST);
-        }
+        guitarService.deleteGuitar(id);
+        statusOutput.setSuccededMessage("Guitar deleted");
+        statusOutput.setSucceded(true);
+        return new ResponseEntity<>(statusOutput, HttpStatus.OK);
     }
 
     @GetMapping(value = "/guitars/{id}/image", produces = MediaType.IMAGE_GIF_VALUE)
-    public @ResponseBody byte[] getGuitarImage(@PathVariable Long id) {
+    public @ResponseBody
+    byte[] getGuitarImage(@PathVariable Long id) {
         byte[] image = guitarService.getImage(id);
         return image;
     }
