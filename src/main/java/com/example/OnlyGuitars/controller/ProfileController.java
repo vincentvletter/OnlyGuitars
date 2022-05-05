@@ -5,6 +5,9 @@ import com.example.OnlyGuitars.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
@@ -28,16 +31,10 @@ public class ProfileController {
             statusOutput.setSucceded(false);
             return new ResponseEntity<>(statusOutput, HttpStatus.BAD_REQUEST);
         }
-        try {
-            profileService.createProfile(profileInputDto);
-            statusOutput.setSuccededMessage("profiel aangemaakt");
-            statusOutput.setSucceded(true);
-            return new ResponseEntity<>(statusOutput, HttpStatus.CREATED);
-        } catch (Exception exception) {
-            statusOutput.getErrorList().add("username already exists");
-            statusOutput.setSucceded(false);
-            return new ResponseEntity<>(statusOutput, HttpStatus.BAD_REQUEST);
-        }
+        profileService.createProfile(profileInputDto);
+        statusOutput.setSuccededMessage("profiel aangemaakt");
+        statusOutput.setSucceded(true);
+        return new ResponseEntity<>(statusOutput, HttpStatus.CREATED);
     }
 
     @PutMapping("/profiles/update")
@@ -50,96 +47,72 @@ public class ProfileController {
             statusOutput.setSucceded(false);
             return new ResponseEntity<>(statusOutput, HttpStatus.BAD_REQUEST);
         }
-        try {
-            profileService.updateProfile(profileInputDto);
-            statusOutput.setSuccededMessage("profile updated");
-            statusOutput.setSucceded(true);
-            return new ResponseEntity<>(statusOutput, HttpStatus.OK);
-        } catch (Exception exception) {
-            statusOutput.getErrorList().add("username already exists");
-            statusOutput.setSucceded(false);
-            return new ResponseEntity<>(statusOutput, HttpStatus.BAD_REQUEST);
-        }
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) auth.getPrincipal();
+        profileService.updateProfile(profileInputDto, userDetails.getUsername());
+        statusOutput.setSuccededMessage("profile updated");
+        statusOutput.setSucceded(true);
+        return new ResponseEntity<>(statusOutput, HttpStatus.OK);
     }
 
     @GetMapping("/profiles")
     public ResponseEntity<Object> getProfile() {
-        StatusOutput statusOutput = new StatusOutput();
-        try {
-            ProfileOutputDto profileOutputDto = profileService.getProfile();
-            profileOutputDto.setSucceded(true);
-            return new ResponseEntity<>(profileOutputDto, HttpStatus.OK);
-        } catch (Exception exception) {
-            statusOutput.getErrorList().add("profile not found");
-            statusOutput.getErrorList().add(exception.getMessage());
-            statusOutput.setSucceded(false);
-            return new ResponseEntity<>(statusOutput, HttpStatus.BAD_REQUEST);
-        }
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) auth.getPrincipal();
+        ProfileOutputDto profileOutputDto = profileService.getProfile(userDetails.getUsername());
+        profileOutputDto.setSucceded(true);
+        return new ResponseEntity<>(profileOutputDto, HttpStatus.OK);
     }
 
     @DeleteMapping("/profiles")
     public ResponseEntity<Object> deleteProfile() {
         StatusOutput statusOutput = new StatusOutput();
-        try {
-            profileService.deleteProfile();
-            statusOutput.setSuccededMessage("Profile deleted");
-            statusOutput.setSucceded(true);
-            return new ResponseEntity<>(statusOutput, HttpStatus.OK);
-        } catch (Exception exception) {
-            statusOutput.getErrorList().add("could not find profile");
-            statusOutput.getErrorList().add(exception.getMessage());
-            statusOutput.setSucceded(false);
-            return new ResponseEntity<>(statusOutput, HttpStatus.BAD_REQUEST);
-        }
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) auth.getPrincipal();
+        profileService.deleteProfile(userDetails.getUsername());
+        statusOutput.setSuccededMessage("Profile deleted");
+        statusOutput.setSucceded(true);
+        return new ResponseEntity<>(statusOutput, HttpStatus.OK);
     }
 
     @PostMapping("/profiles/guitars")
     public ResponseEntity<Object> addGuitar(@RequestBody GuitarInputDto guitarInputDto) {
         StatusOutput statusOutput = new StatusOutput();
-        try {
-            profileService.addGuitarToProfile(guitarInputDto);
-            statusOutput.setSuccededMessage("Guitar added");
-            statusOutput.setSucceded(true);
-            return new ResponseEntity<>(statusOutput, HttpStatus.OK);
-        } catch (Exception exception) {
-            statusOutput.getErrorList().add("You already liked the guitar.");
-            statusOutput.getErrorList().add(exception.getMessage());
-            statusOutput.setSucceded(false);
-            return new ResponseEntity<>(statusOutput, HttpStatus.BAD_REQUEST);
-        }
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) auth.getPrincipal();
+        profileService.addGuitarToProfile(guitarInputDto, userDetails.getUsername());
+        statusOutput.setSuccededMessage("Guitar added");
+        statusOutput.setSucceded(true);
+        return new ResponseEntity<>(statusOutput, HttpStatus.OK);
     }
 
     @PostMapping("/profiles/remove/guitars/from-list")
     public ResponseEntity<Object> removeGuitarFromList(@RequestBody GuitarInputDto guitarInputDto) {
         StatusOutput statusOutput = new StatusOutput();
-        try {
-            profileService.removeGuitarFromList(guitarInputDto);
-            statusOutput.setSuccededMessage("Guitar removed from your list");
-            statusOutput.setSucceded(true);
-            return new ResponseEntity<>(statusOutput, HttpStatus.OK);
-        } catch (Exception exception) {
-            statusOutput.getErrorList().add("Guitar not found");
-            statusOutput.getErrorList().add(exception.getMessage());
-            statusOutput.setSucceded(false);
-            return new ResponseEntity<>(statusOutput, HttpStatus.BAD_REQUEST);
-        }
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) auth.getPrincipal();
+        profileService.removeGuitarFromList(guitarInputDto, userDetails.getUsername());
+        statusOutput.setSuccededMessage("Guitar removed from your list");
+        statusOutput.setSucceded(true);
+        return new ResponseEntity<>(statusOutput, HttpStatus.OK);
     }
 
     @PostMapping("/profiles/guitars/{id}/reviews")
-    public ResponseEntity<Object> writeReview(@PathVariable Long id, @RequestBody ReviewInputDto reviewInputDto) {
+    public ResponseEntity<Object> writeReview(@Validated @PathVariable Long id, @RequestBody ReviewInputDto reviewInputDto, BindingResult bindingResult) {
         StatusOutput statusOutput = new StatusOutput();
-        try {
-            if(reviewInputDto.title.isEmpty() || reviewInputDto.details.isEmpty()) {
-                throw new RuntimeException();
+        if (bindingResult.hasErrors()) {
+            for (FieldError fe : bindingResult.getFieldErrors()) {
+                statusOutput.getErrorList().add(fe.getDefaultMessage());
             }
-            profileService.writeReview(id, reviewInputDto);
-            statusOutput.setSuccededMessage("Review added");
-            statusOutput.setSucceded(true);
-            return new ResponseEntity<>(statusOutput, HttpStatus.OK);
-        } catch (Exception exception) {
-            statusOutput.setSuccededMessage("Something went wrong, Could not add review");
             statusOutput.setSucceded(false);
             return new ResponseEntity<>(statusOutput, HttpStatus.BAD_REQUEST);
         }
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) auth.getPrincipal();
+        profileService.writeReview(id, reviewInputDto, userDetails.getUsername());
+        statusOutput.setSuccededMessage("Review added");
+        statusOutput.setSucceded(true);
+        return new ResponseEntity<>(statusOutput, HttpStatus.OK);
     }
 }

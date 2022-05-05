@@ -30,44 +30,26 @@ public class RequestController {
             statusOutput.setSucceded(false);
             return new ResponseEntity<>(statusOutput, HttpStatus.BAD_REQUEST);
         }
-        try {
-            requestService.createRequest(requestInputDto);
-            statusOutput.setSuccededMessage("Request send");
-            statusOutput.setSucceded(true);
-            return new ResponseEntity<>(statusOutput, HttpStatus.CREATED);
-        } catch (Exception exception) {
-            statusOutput.getErrorList().add("something went wrong");
-            statusOutput.setSucceded(false);
-            return new ResponseEntity<>(statusOutput, HttpStatus.BAD_REQUEST);
-        }
+        requestService.createRequest(requestInputDto);
+        statusOutput.setSuccededMessage("Request send");
+        statusOutput.setSucceded(true);
+        return new ResponseEntity<>(statusOutput, HttpStatus.CREATED);
     }
 
     @GetMapping("/requests/get")
     public ResponseEntity<Object> getAllRequests() {
         StatusOutput statusOutput = new StatusOutput();
-        try {
-            List<RequestOutputDto> allRequests = requestService.getAllRequests();
-            statusOutput.setSucceded(true);
-            return new ResponseEntity<>(allRequests, HttpStatus.OK);
-        } catch (Exception exception) {
-            statusOutput.getErrorList().add("something went wrong");
-            statusOutput.setSucceded(false);
-            return new ResponseEntity<>(statusOutput, HttpStatus.BAD_REQUEST);
-        }
+        List<RequestOutputDto> allRequests = requestService.getAllRequests();
+        statusOutput.setSucceded(true);
+        return new ResponseEntity<>(allRequests, HttpStatus.OK);
     }
 
     @DeleteMapping("/requests/{id}")
     public ResponseEntity<Object> deleteRequest(@PathVariable Long id) {
         StatusOutput statusOutput = new StatusOutput();
-        try {
-            requestService.deleteRequest(id);
-            statusOutput.setSuccededMessage("Request deleted");
-            statusOutput.setSucceded(true);
-            return new ResponseEntity<>(statusOutput, HttpStatus.OK);
-        } catch (Exception exception) {
-            statusOutput.getErrorList().add(exception.getMessage());
-            statusOutput.setSucceded(false);
-            return new ResponseEntity<>(statusOutput, HttpStatus.BAD_REQUEST);
-        }
+        requestService.deleteRequest(id);
+        statusOutput.setSuccededMessage("Request deleted");
+        statusOutput.setSucceded(true);
+        return new ResponseEntity<>(statusOutput, HttpStatus.OK);
     }
 }
