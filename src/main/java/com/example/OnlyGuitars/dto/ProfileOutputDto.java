@@ -1,8 +1,11 @@
 package com.example.OnlyGuitars.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class ProfileOutputDto extends StatusOutput {
 
@@ -12,6 +15,8 @@ public class ProfileOutputDto extends StatusOutput {
     public int enabled;
     public LocalDateTime timeStamp;
     public List<GuitarOutputDto> guitarList = new ArrayList<>();
+    @JsonIgnore
+    public AuthorityOutputDto authority;
 
 
     public Long getId() {

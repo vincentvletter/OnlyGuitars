@@ -15,13 +15,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @RestController
 public class AuthController {
-    @Autowired
-    private AuthenticationManager authManager;
 
     @Autowired
+    private AuthenticationManager authManager;
+    @Autowired
     JwtService jwtService;
+
 
     @PostMapping("/login")
     public ResponseEntity<Object> signIn(@RequestBody AuthDto authDto) {

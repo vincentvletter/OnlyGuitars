@@ -18,6 +18,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
 @SpringBootTest
 @ContextConfiguration(classes={OnlyGuitarsApplication.class})
 class RequestServiceImplTest {
@@ -30,6 +31,7 @@ class RequestServiceImplTest {
 
     @Mock
     Request request;
+
 
     @Test
     public void shouldReturnRequestOutputDto() {

@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
 
+
 @Entity
 @Table(name = "requests")
 public class Request {

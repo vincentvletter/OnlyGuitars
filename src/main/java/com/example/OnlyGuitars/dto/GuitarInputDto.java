@@ -1,8 +1,8 @@
 package com.example.OnlyGuitars.dto;
 
-
 import javax.persistence.Lob;
 import javax.validation.constraints.NotBlank;
+
 
 public class GuitarInputDto {
 

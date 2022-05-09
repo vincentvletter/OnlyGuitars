@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Entity
 @Table(name = "guitars")
 public class Guitar {
@@ -29,8 +30,6 @@ public class Guitar {
     @ManyToMany(mappedBy = "guitars")
     @JsonIgnore
     private List<Profile> profiles = new ArrayList<>();
-
-
 
 
     public Long getId() {

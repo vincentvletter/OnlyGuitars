@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Service
 public class GuitarServiceImpl implements GuitarService {
 
@@ -32,7 +33,7 @@ public class GuitarServiceImpl implements GuitarService {
         if (guitarRepository.findByModel(model) == null) {
             try {
                 if(image != null) {
-                guitarInputDto.setImage(image.getBytes());
+                    guitarInputDto.setImage(image.getBytes());
                 }
                 guitarInputDto.setBrand(brand);
                 guitarInputDto.setModel(model);
@@ -65,10 +66,10 @@ public class GuitarServiceImpl implements GuitarService {
     @Transactional
     public void deleteGuitar(Long id) {
         if(guitarRepository.findById(id).isPresent()){
-        Guitar guitar = guitarRepository.findById(id).get();
-        guitar.getReviews().forEach(review -> reviewService.deleteReview(review.getId()));
-        guitar.getProfiles().forEach(profile -> profileService.removeGuitar(profile.getId(), guitar));
-        guitarRepository.delete(guitar);
+            Guitar guitar = guitarRepository.findById(id).get();
+            guitar.getReviews().forEach(review -> reviewService.deleteReview(review.getId()));
+            guitar.getProfiles().forEach(profile -> profileService.removeGuitar(profile.getId(), guitar));
+            guitarRepository.delete(guitar);
         } else {
             throw new RecordNotFoundException("guitar not found");
         }
@@ -76,9 +77,9 @@ public class GuitarServiceImpl implements GuitarService {
 
     public byte[] getImage(Long id) {
         if(guitarRepository.findById(id).isPresent()) {
-        Guitar guitar = guitarRepository.findById(id).get();
-        GuitarOutputDto guitarOutputDto = fromGuitarImage(guitar);
-        return guitarOutputDto.image;
+            Guitar guitar = guitarRepository.findById(id).get();
+            GuitarOutputDto guitarOutputDto = fromGuitarImage(guitar);
+            return guitarOutputDto.image;
         } else {
             throw new RecordNotFoundException("guitar not found");
         }

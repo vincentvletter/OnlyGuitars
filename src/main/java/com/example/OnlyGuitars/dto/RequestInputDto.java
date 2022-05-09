@@ -3,6 +3,7 @@ package com.example.OnlyGuitars.dto;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
+
 public class RequestInputDto {
 
     @NotBlank(message = "This field has to be filled in")
@@ -15,7 +16,6 @@ public class RequestInputDto {
     public String getBrand() {
         return brand;
     }
-
     public String getModel() {
         return model;
     }

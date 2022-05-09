@@ -4,14 +4,13 @@ import com.example.OnlyGuitars.dto.GuitarOutputDto;
 import com.example.OnlyGuitars.dto.StatusOutput;
 import com.example.OnlyGuitars.service.GuitarService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+
 
 @RestController
 public class GuitarController {
@@ -55,10 +54,21 @@ public class GuitarController {
         return new ResponseEntity<>(statusOutput, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/guitars/{id}/image", produces = MediaType.IMAGE_GIF_VALUE)
-    public @ResponseBody
-    byte[] getGuitarImage(@PathVariable Long id) {
+    @GetMapping(value = "/guitars/{id}/image", produces = MediaType.IMAGE_JPEG_VALUE)
+    @ResponseBody
+    public byte[] getGuitarImage(@PathVariable Long id) {
         byte[] image = guitarService.getImage(id);
         return image;
+    }
+
+    @GetMapping(value = "/image/{id}/download", produces = MediaType.IMAGE_JPEG_VALUE)
+    @ResponseBody
+    public HttpEntity<byte[]> getArticleImage(@PathVariable Long id) {
+        byte[] image = guitarService.getImage(id);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_JPEG);
+        headers.setContentLength(image.length);
+        headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"guitar-picture.jpg\"");
+        return new HttpEntity<byte[]>(image, headers);
     }
 }

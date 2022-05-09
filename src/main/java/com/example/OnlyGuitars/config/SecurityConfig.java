@@ -1,6 +1,5 @@
 package com.example.OnlyGuitars.config;
 
-
 import com.example.OnlyGuitars.filter.JwtRequestFilter;
 import com.example.OnlyGuitars.service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.sql.DataSource;
+
 
 @Configuration
 @EnableWebSecurity
@@ -51,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(new BCryptPasswordEncoder())
                 .dataSource(dataSource)
                 .usersByUsernameQuery("select username, password, enabled from profiles where username=?")
-                .authoritiesByUsernameQuery("select username, role from profiles where username=?");
+                .authoritiesByUsernameQuery("select username, authority from authorities where username=?");
     }
 
     @Override
@@ -62,6 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/register").permitAll()
                 .antMatchers("/login").permitAll()
+                .antMatchers("/image/{id}/download").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers("/profiles/**").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers("/guitars").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers("/guitars/{id}/image").hasAnyAuthority("USER", "ADMIN")

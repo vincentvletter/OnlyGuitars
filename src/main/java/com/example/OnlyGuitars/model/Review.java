@@ -17,7 +17,7 @@ public class Review {
     private String details;
     @Timestamp
     private LocalDateTime timeStamp = LocalDateTime.now();
-    
+
     @ManyToOne
     @JoinColumn(name = "guitar_id")
     @JsonIgnore

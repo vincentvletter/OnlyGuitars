@@ -8,7 +8,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class GuitarOutputDto {
+
     public Long id;
     public String brand;
     public String model;
@@ -44,5 +46,4 @@ public class GuitarOutputDto {
     public void setReviewList(List<ReviewOutputDto> reviewList) {
         this.reviewList = reviewList;
     }
-
 }

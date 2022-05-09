@@ -3,6 +3,7 @@ package com.example.OnlyGuitars.service;
 import com.example.OnlyGuitars.dto.*;
 import com.example.OnlyGuitars.exceptions.BadRequestException;
 import com.example.OnlyGuitars.exceptions.RecordNotFoundException;
+import com.example.OnlyGuitars.model.Authority;
 import com.example.OnlyGuitars.model.Guitar;
 import com.example.OnlyGuitars.model.Profile;
 import com.example.OnlyGuitars.model.Review;
@@ -20,12 +21,12 @@ import java.util.List;
 @Service
 public class ProfileServiceImpl implements ProfileService {
 
-
-
     @Autowired
     ProfileRepository profileRepository;
     @Autowired
     GuitarRepository guitarRepository;
+    @Autowired
+    AuthorityService authorityService;
     @Autowired
     GuitarServiceImpl guitarService;
     @Autowired
@@ -35,10 +36,9 @@ public class ProfileServiceImpl implements ProfileService {
 
 
     public void createProfile(ProfileInputDto profileInputDto) {
-        Profile profile = profileRepository.findByUsername(profileInputDto.username);
-        if (profile == null) {
+        if (profileRepository.findByUsername(profileInputDto.username) == null) {
             profileInputDto.setPassword(passwordEncoder.encode(profileInputDto.getPassword()));
-            profile = toProfile(profileInputDto);
+            Profile profile = toProfile(profileInputDto);
             profileRepository.save(profile);
         } else {
             throw new BadRequestException("Username already exist");
@@ -120,13 +120,16 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     public Profile toProfile(ProfileInputDto profileInputDto) {
+        Authority authority = new Authority(profileInputDto.getUsername(), "USER");
 
         Profile profile = new Profile();
 
         profile.setUsername(profileInputDto.getUsername());
         profile.setPassword(profileInputDto.getPassword());
-        profile.setRole(profileInputDto.getRole());
         profile.setEnabled(1);
+        profile.setAuthority(authority);
+
+        authority.setProfile(profile);
 
         return profile;
     }
@@ -136,9 +139,10 @@ public class ProfileServiceImpl implements ProfileService {
         List<GuitarOutputDto> guitarOutputDtoList = new ArrayList<>();
         profileOutputDto.id = profile.getId();
         profileOutputDto.username = profile.getUsername();
-        profileOutputDto.role = profile.getRole();
         profileOutputDto.enabled = profile.getEnabled();
         profileOutputDto.timeStamp = profile.getTimeStamp();
+        profileOutputDto.authority = authorityService.fromAuthority(profile.getAuthority());
+        profileOutputDto.role = profileOutputDto.authority.getAutority();
 
         profile.getGuitars().forEach(guitar -> guitarOutputDtoList.add(guitarService.fromGuitar(guitar)));
 

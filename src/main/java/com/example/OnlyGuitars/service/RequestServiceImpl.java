@@ -11,11 +11,13 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Service
 public class RequestServiceImpl implements RequestService{
 
     @Autowired
     RequestRepository requestRepository;
+
 
     public void createRequest(RequestInputDto requestInputDto) {
         Request request = toRequest(requestInputDto);
