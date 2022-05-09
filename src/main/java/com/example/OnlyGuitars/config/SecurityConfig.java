@@ -51,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(new BCryptPasswordEncoder())
                 .dataSource(dataSource)
                 .usersByUsernameQuery("select username, password, enabled from profiles where username=?")
-                .authoritiesByUsernameQuery("select username, role from profiles where username=?");
+                .authoritiesByUsernameQuery("select username, authority from authorities where username=?");
     }
 
     @Override
@@ -62,6 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/register").permitAll()
                 .antMatchers("/login").permitAll()
+                .antMatchers("/image/{id}/download").permitAll()
                 .antMatchers("/profiles/**").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers("/guitars").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers("/guitars/{id}/image").hasAnyAuthority("USER", "ADMIN")

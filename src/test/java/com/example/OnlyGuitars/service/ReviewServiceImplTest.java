@@ -39,5 +39,4 @@ class ReviewServiceImplTest {
 
         assertEquals(expected, reviewOutputDto.title);
     }
-
 }

@@ -5,6 +5,7 @@ import com.example.OnlyGuitars.dto.GuitarInputDto;
 import com.example.OnlyGuitars.dto.ProfileInputDto;
 import com.example.OnlyGuitars.dto.ProfileOutputDto;
 import com.example.OnlyGuitars.dto.ReviewInputDto;
+import com.example.OnlyGuitars.model.Authority;
 import com.example.OnlyGuitars.model.Guitar;
 import com.example.OnlyGuitars.model.Profile;
 import com.example.OnlyGuitars.model.Review;
@@ -54,7 +55,7 @@ class ProfileServiceImplTest {
         profileInputDto.username = "vincent";
         profileInputDto.password = "$2a$10$Z2cPoT34PCz9zqYmw3.Dt.UwcRoGMJYZMovkkUyyxkDASwnX0I8bq";
         profileInputDto.id = 2L;
-        profileInputDto.role = "ADMIN";
+
 
         Profile profile = profileService.toProfile(profileInputDto);
 
@@ -65,26 +66,33 @@ class ProfileServiceImplTest {
 
     @Test
     public void shouldReturnProfileOutputDto() {
-        profile = new Profile();
+        Authority authority = new Authority();
+        authority.setUsername("vincent");
+        authority.setAuthority("ADMIN");
 
+        Profile profile = new Profile();
         profile.setId(4L);
         profile.setUsername("vincent");
-        profile.setRole("USER");
+        profile.setAuthority(authority);
         profile.setEnabled(1);
 
         ProfileOutputDto profileOutputDto = profileService.fromProfile(profile);
 
-        String expected = "USER";
+        String expected = "ADMIN";
 
         assertEquals(expected, profileOutputDto.role);
     }
 
     @Test
     public void shouldGetProfile() {
+        Authority authority = new Authority();
+        authority.setUsername("vincent");
+        authority.setAuthority("ADMIN");
+
         profile = new Profile();
         profile.setUsername("vincent");
         profile.setPassword("$2a$10$Z2cPoT34PCz9zqYmw3.Dt.UwcRoGMJYZMovkkUyyxkDASwnX0I8bq");
-        profile.setRole("USER");
+        profile.setAuthority(authority);
 
         Mockito
                 .when(profileRepository.findByUsername(profile.getUsername()))
@@ -101,10 +109,14 @@ class ProfileServiceImplTest {
 
     @Test
     public void shouldUpdateProfile() {
+        Authority authority = new Authority();
+        authority.setUsername("vincent");
+        authority.setAuthority("ADMIN");
+
         profile = new Profile();
         profile.setUsername("vincent");
         profile.setPassword("$2a$10$Z2cPoT34PCz9zqYmw3.Dt.UwcRoGMJYZMovkkUyyxkDASwnX0I8bq");
-        profile.setRole("USER");
+        profile.setAuthority(authority);
         profile.setId(1L);
 
         ProfileInputDto profileInputDto = new ProfileInputDto();
@@ -127,8 +139,13 @@ class ProfileServiceImplTest {
 
     @Test
     public void shouldAddGuitarToProfile() {
+        Authority authority = new Authority();
+        authority.setUsername("vincent");
+        authority.setAuthority("ADMIN");
+
         profile = new Profile();
         profile.setUsername("vincent");
+        profile.setAuthority(authority);
 
         ProfileInputDto profileInputDto = new ProfileInputDto();
         profileInputDto.setUsername("vincent");

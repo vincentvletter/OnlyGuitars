@@ -4,9 +4,7 @@ import com.example.OnlyGuitars.dto.GuitarOutputDto;
 import com.example.OnlyGuitars.dto.StatusOutput;
 import com.example.OnlyGuitars.service.GuitarService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -60,5 +58,21 @@ public class GuitarController {
     byte[] getGuitarImage(@PathVariable Long id) {
         byte[] image = guitarService.getImage(id);
         return image;
+    }
+
+    @GetMapping("/image/{id}/download")
+    @ResponseBody
+    public HttpEntity<byte[]> getArticleImage(@PathVariable Long id) {
+
+
+        // 1. download img from http://internal-picture-db/id.jpg ...
+        byte[] image = guitarService.getImage(id);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_JPEG);
+        headers.setContentLength(image.length);
+        headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"guitar-picture.jpg\"");
+
+        return new HttpEntity<byte[]>(image, headers);
     }
 }

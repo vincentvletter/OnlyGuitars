@@ -14,7 +14,6 @@ public class ProfileInputDto {
     @NotBlank
     @Size(min = 6, message = "password has to be at least 6 characters")
     public String password;
-    public String role = "USER";
     public int enabled = 1;
 
 
@@ -35,8 +34,5 @@ public class ProfileInputDto {
     }
     public void setPassword(String password) {
         this.password = password;
-    }
-    public String getRole() {
-        return role;
     }
 }

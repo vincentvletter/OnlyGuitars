@@ -44,5 +44,4 @@ public class GuitarOutputDto {
     public void setReviewList(List<ReviewOutputDto> reviewList) {
         this.reviewList = reviewList;
     }
-
 }

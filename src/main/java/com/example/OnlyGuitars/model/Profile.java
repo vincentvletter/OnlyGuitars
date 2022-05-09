@@ -18,7 +18,6 @@ public class Profile {
     private Long id;
     private String username;
     private String password;
-    private String role;
     private int enabled;
     @Timestamp
     private LocalDateTime timeStamp = LocalDateTime.now();
@@ -28,6 +27,14 @@ public class Profile {
 
     @ManyToMany
     private List<Guitar> guitars = new ArrayList<>();
+
+    @OneToOne(
+            targetEntity = Authority.class,
+            mappedBy = "profile",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.EAGER)
+    private Authority authority;
 
 
     public Long getId() {
@@ -45,12 +52,6 @@ public class Profile {
     public void setPassword(String password) {
         this.password = password;
     }
-    public String getRole() {
-        return role;
-    }
-    public void setRole(String role) {
-        this.role = role;
-    }
     public int getEnabled() {
         return enabled;
     }
@@ -65,5 +66,11 @@ public class Profile {
     }
     public List<Review> getReviews() {
         return reviews;
+    }
+    public Authority getAuthority() {
+        return authority;
+    }
+    public void setAuthority(Authority authority) {
+        this.authority = authority;
     }
 }

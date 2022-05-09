@@ -32,7 +32,6 @@ public class Guitar {
 
 
 
-
     public Long getId() {
         return id;
     }
