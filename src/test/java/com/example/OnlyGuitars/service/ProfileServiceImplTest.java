@@ -24,6 +24,7 @@ import org.springframework.test.context.ContextConfiguration;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
 @SpringBootTest
 @ContextConfiguration(classes={OnlyGuitarsApplication.class})
 class ProfileServiceImplTest {
@@ -49,13 +50,13 @@ class ProfileServiceImplTest {
     @Mock
     Review review;
 
+
     @Test
     public void shouldReturnProfile() {
         ProfileInputDto profileInputDto = new ProfileInputDto();
         profileInputDto.username = "vincent";
         profileInputDto.password = "$2a$10$Z2cPoT34PCz9zqYmw3.Dt.UwcRoGMJYZMovkkUyyxkDASwnX0I8bq";
         profileInputDto.id = 2L;
-
 
         Profile profile = profileService.toProfile(profileInputDto);
 
@@ -106,7 +107,6 @@ class ProfileServiceImplTest {
         assertEquals(expected, found.getUsername());
     }
 
-
     @Test
     public void shouldUpdateProfile() {
         Authority authority = new Authority();
@@ -135,7 +135,6 @@ class ProfileServiceImplTest {
 
         assertEquals(expected, found.getUsername());
     }
-
 
     @Test
     public void shouldAddGuitarToProfile() {
