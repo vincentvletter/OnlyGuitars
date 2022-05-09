@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+
 @RestController
 public class GuitarController {
 
@@ -53,26 +54,21 @@ public class GuitarController {
         return new ResponseEntity<>(statusOutput, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/guitars/{id}/image", produces = MediaType.IMAGE_GIF_VALUE)
-    public @ResponseBody
-    byte[] getGuitarImage(@PathVariable Long id) {
+    @GetMapping(value = "/guitars/{id}/image", produces = MediaType.IMAGE_JPEG_VALUE)
+    @ResponseBody
+    public byte[] getGuitarImage(@PathVariable Long id) {
         byte[] image = guitarService.getImage(id);
         return image;
     }
 
-    @GetMapping("/image/{id}/download")
+    @GetMapping(value = "/image/{id}/download", produces = MediaType.IMAGE_JPEG_VALUE)
     @ResponseBody
     public HttpEntity<byte[]> getArticleImage(@PathVariable Long id) {
-
-
-        // 1. download img from http://internal-picture-db/id.jpg ...
         byte[] image = guitarService.getImage(id);
-
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.IMAGE_JPEG);
         headers.setContentLength(image.length);
         headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"guitar-picture.jpg\"");
-
         return new HttpEntity<byte[]>(image, headers);
     }
 }

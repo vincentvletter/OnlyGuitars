@@ -1,13 +1,12 @@
 package com.example.OnlyGuitars.model;
 
 import jdk.jfr.Timestamp;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Entity
 @Table(name = "profiles")

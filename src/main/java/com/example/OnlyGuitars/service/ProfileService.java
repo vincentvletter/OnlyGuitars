@@ -9,6 +9,7 @@ import com.example.OnlyGuitars.model.Profile;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+
 public interface ProfileService {
     public void createProfile(ProfileInputDto profileInputDto);
     public ProfileOutputDto updateProfile(ProfileInputDto profileInputDto, String username);

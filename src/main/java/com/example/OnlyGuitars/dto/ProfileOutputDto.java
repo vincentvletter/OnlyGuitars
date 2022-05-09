@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class ProfileOutputDto extends StatusOutput {
 
     public Long id;
@@ -30,15 +31,6 @@ public class ProfileOutputDto extends StatusOutput {
     public void setUsername(String username) {
         this.username = username;
     }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
     public LocalDateTime getTimeStamp() {
         return timeStamp;
     }

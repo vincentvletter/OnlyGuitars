@@ -2,10 +2,10 @@ package com.example.OnlyGuitars.dto;
 
 import com.example.OnlyGuitars.model.Guitar;
 import com.example.OnlyGuitars.model.Profile;
-import com.example.OnlyGuitars.model.Review;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+
 
 public class ReviewInputDto {
 
@@ -17,6 +17,7 @@ public class ReviewInputDto {
     public String details;
     public Guitar guitar;
     public Profile profile;
+
 
     public Long getId() {
         return id;

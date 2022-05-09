@@ -7,7 +7,6 @@ import com.example.OnlyGuitars.model.Authority;
 import com.example.OnlyGuitars.model.Guitar;
 import com.example.OnlyGuitars.model.Profile;
 import com.example.OnlyGuitars.model.Review;
-import com.example.OnlyGuitars.repository.AuthorityRepository;
 import com.example.OnlyGuitars.repository.GuitarRepository;
 import com.example.OnlyGuitars.repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,16 +21,12 @@ import java.util.List;
 @Service
 public class ProfileServiceImpl implements ProfileService {
 
-
-
     @Autowired
     ProfileRepository profileRepository;
     @Autowired
     GuitarRepository guitarRepository;
     @Autowired
     AuthorityService authorityService;
-    @Autowired
-    AuthorityRepository authorityRepository;
     @Autowired
     GuitarServiceImpl guitarService;
     @Autowired

@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+
 public interface GuitarService {
     public void createGuitar(MultipartFile image, String brand, String model);
     public GuitarOutputDto getGuitar(Long id);

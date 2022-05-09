@@ -2,7 +2,9 @@ package com.example.OnlyGuitars.dto;
 
 import java.time.LocalDateTime;
 
+
 public class ReviewOutputDto extends StatusOutput {
+
     public Long id;
     public String title;
     public String details;
@@ -21,7 +23,4 @@ public class ReviewOutputDto extends StatusOutput {
     public void setTimeStamp(LocalDateTime timeStamp) {
         this.timeStamp = timeStamp;
     }
-
-
-
 }
