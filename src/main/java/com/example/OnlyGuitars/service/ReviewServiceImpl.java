@@ -43,6 +43,7 @@ public class ReviewServiceImpl implements ReviewService {
         reviewOutputDto.title = review.getTitle();
         reviewOutputDto.details = review.getDetails();
         reviewOutputDto.timeStamp = review.getTimeStamp();
+        reviewOutputDto.username = review.getProfile().getUsername();
 
         return reviewOutputDto;
     }
