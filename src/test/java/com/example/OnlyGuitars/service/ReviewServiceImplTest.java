@@ -2,6 +2,7 @@ package com.example.OnlyGuitars.service;
 
 import com.example.OnlyGuitars.OnlyGuitarsApplication;
 import com.example.OnlyGuitars.dto.ReviewOutputDto;
+import com.example.OnlyGuitars.model.Profile;
 import com.example.OnlyGuitars.model.Review;
 import com.example.OnlyGuitars.repository.ReviewRepository;
 import org.junit.jupiter.api.Test;
@@ -30,10 +31,14 @@ class ReviewServiceImplTest {
 
     @Test
     public void shouldReturnReviewOutputDto() {
+        Profile profile = new Profile();
+        profile.setId(1L);
+
         review = new Review();
         review.setId(1L);
         review.setTitle("test");
         review.setDetails("Dit is een test.");
+        review.setProfile(profile);
 
         ReviewOutputDto reviewOutputDto = reviewService.fromReview(review);
 
