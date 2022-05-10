@@ -9,6 +9,7 @@ public class ReviewOutputDto extends StatusOutput {
     public String title;
     public String details;
     public LocalDateTime timeStamp;
+    public String username;
 
 
     public Long getId() {
@@ -23,4 +24,5 @@ public class ReviewOutputDto extends StatusOutput {
     public void setTimeStamp(LocalDateTime timeStamp) {
         this.timeStamp = timeStamp;
     }
+
 }

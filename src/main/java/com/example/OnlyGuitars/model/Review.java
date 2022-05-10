@@ -61,4 +61,7 @@ public class Review {
     public void setProfile(Profile profile) {
         this.profile = profile;
     }
+    public Profile getProfile() {
+        return profile;
+    }
 }
