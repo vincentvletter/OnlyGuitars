@@ -2,7 +2,6 @@ package com.example.OnlyGuitars.dto;
 
 import java.time.LocalDateTime;
 
-
 public class ReviewOutputDto extends StatusOutput {
 
     public Long id;
@@ -11,18 +10,19 @@ public class ReviewOutputDto extends StatusOutput {
     public LocalDateTime timeStamp;
     public String username;
 
-
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
+
     public LocalDateTime getTimeStamp() {
         return timeStamp;
     }
+
     public void setTimeStamp(LocalDateTime timeStamp) {
         this.timeStamp = timeStamp;
     }
-
 }

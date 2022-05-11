@@ -24,7 +24,6 @@ import org.springframework.test.context.ContextConfiguration;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
 @SpringBootTest
 @ContextConfiguration(classes={OnlyGuitarsApplication.class})
 class ProfileServiceImplTest {
@@ -68,6 +67,7 @@ class ProfileServiceImplTest {
     @Test
     public void shouldReturnProfileOutputDto() {
         Authority authority = new Authority();
+
         authority.setUsername("vincent");
         authority.setAuthority("ADMIN");
 

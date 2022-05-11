@@ -27,40 +27,50 @@ public class Review {
     @JoinColumn(name = "profile_id")
     private Profile profile;
 
-
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
+
     public String getTitle() {
         return title;
     }
+
     public void setTitle(String title) {
         this.title = title;
     }
+
     public String getDetails() {
         return details;
     }
+
     public void setDetails(String details) {
         this.details = details;
     }
+
     public LocalDateTime getTimeStamp() {
         return timeStamp;
     }
+
     public void setTimeStamp(LocalDateTime timeStamp) {
         this.timeStamp = timeStamp;
     }
+
     public Guitar getGuitar() {
         return guitar;
     }
+
     public void setGuitar(Guitar guitar) {
         this.guitar = guitar;
     }
+
     public void setProfile(Profile profile) {
         this.profile = profile;
     }
+
     public Profile getProfile() {
         return profile;
     }

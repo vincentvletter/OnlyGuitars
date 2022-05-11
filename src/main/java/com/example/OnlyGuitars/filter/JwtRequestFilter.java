@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
@@ -36,8 +35,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                                             response,
                                     @NonNull FilterChain
                                             filterChain) throws ServletException, IOException {
-        final String authorizationHeader =
-                request.getHeader("Authorization");
+        final String authorizationHeader = request.getHeader("Authorization");
         String username = null;
         String jwt = null;
         if (authorizationHeader != null &&
@@ -47,8 +45,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         }
         if (username != null &&
                 SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails =
-                    this.userDetailsService.loadUserByUsername(username);
+            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
             if (jwtService.validateToken(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken
                         usernamePasswordAuthenticationToken = new
@@ -56,8 +53,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                         userDetails, null,
                         userDetails.getAuthorities()
                 );
-                usernamePasswordAuthenticationToken.setDetails(new
-                        WebAuthenticationDetailsSource().buildDetails(request));
+                usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
             }
         }
