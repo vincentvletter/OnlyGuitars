@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 public interface ProfileService {
+
     public void createProfile(ProfileInputDto profileInputDto);
     public ProfileOutputDto updateProfile(ProfileInputDto profileInputDto, String username);
     public ProfileOutputDto getProfile(String username);

@@ -15,7 +15,9 @@ public class AuthorityServiceImpl implements AuthorityService {
 
     public AuthorityOutputDto fromAuthority(Authority authority) {
         AuthorityOutputDto authorityOutputDto = new AuthorityOutputDto();
+
         authorityOutputDto.autority = authority.getAuthority();
+
         return authorityOutputDto;
     }
 }

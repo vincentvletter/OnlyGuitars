@@ -21,7 +21,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-
 @SpringBootTest
 @ContextConfiguration(classes={OnlyGuitarsApplication.class})
 class GuitarServiceImplTest {
@@ -34,7 +33,6 @@ class GuitarServiceImplTest {
 
     @Mock
     Guitar guitar;
-
 
     @Test
     public void shouldReturnGuitar() {

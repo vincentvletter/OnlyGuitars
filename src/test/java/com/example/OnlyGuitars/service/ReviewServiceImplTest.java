@@ -14,7 +14,6 @@ import org.springframework.test.context.ContextConfiguration;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
 @SpringBootTest
 @ContextConfiguration(classes={OnlyGuitarsApplication.class})
 class ReviewServiceImplTest {
@@ -27,7 +26,6 @@ class ReviewServiceImplTest {
 
     @Mock
     Review review;
-
 
     @Test
     public void shouldReturnReviewOutputDto() {

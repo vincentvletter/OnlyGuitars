@@ -3,7 +3,6 @@ package com.example.OnlyGuitars.dto;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-
 public class ProfileInputDto {
 
     public Long id;
@@ -19,18 +18,23 @@ public class ProfileInputDto {
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
+
     public String getUsername() {
         return username;
     }
+
     public void setUsername(String username) {
         this.username = username;
     }
+
     public String getPassword() {
         return password;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }
